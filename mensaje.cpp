@@ -2,6 +2,7 @@
 #include <vector>
 #include <cctype>
 #include <sstream>
+#include <limits>
 
 using namespace std;
 
@@ -9,8 +10,9 @@ const vector<char> alfabeto = {' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                               'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
                               'U', 'V', 'W', 'X', 'Y', 'Z'};
 const int a = 3;
+const int a_inversa = 9; // Inversa modular de 3 módulo 27
 
-// Función para convertir texto a formato numérico (como en tu ejemplo)
+// Función para convertir texto a formato numérico
 string textoANumeros(const string& texto) {
     stringstream resultado;
     for (char c : texto) {
@@ -23,29 +25,39 @@ string textoANumeros(const string& texto) {
     return resultado.str();
 }
 
+// Función para cifrar
 string cifrar(const string& mensaje) {
     string cifrado;
     for (char c : mensaje) {
         if (c == ' ') {
-            // 0 + 3 mod 27 = 3 → 'D'
-            cifrado += alfabeto[3];
+            int nuevoIndice = (0 + a) % 27; // Cifrado del espacio
+            cifrado += alfabeto[nuevoIndice];
         } else if (isalpha(c)) {
             int indice = toupper(c) - 'A' + 1;
             int nuevoIndice = (indice + a) % 27;
             cifrado += alfabeto[nuevoIndice];
+        } else {
+            cifrado += c; // Mantener caracteres no válidos
         }
     }
     return cifrado;
 }
 
+// Función para descifrar (corregida con inversa modular)
 string descifrar(const string& cifrado) {
     string mensaje;
     for (char c : cifrado) {
-        if (isalpha(c) || c == ' ') {
-            int indice = (c == ' ') ? 0 : (toupper(c) - 'A' + 1);
-            int nuevoIndice = (indice - a) % 27;
+        if (c == ' ') {
+            int nuevoIndice = (0 * a_inversa) % 27; // Descifrado del espacio
             if (nuevoIndice < 0) nuevoIndice += 27;
             mensaje += alfabeto[nuevoIndice];
+        } else if (isalpha(c)) {
+            int indice = toupper(c) - 'A' + 1;
+            int nuevoIndice = (indice * a_inversa) % 27;
+            if (nuevoIndice < 0) nuevoIndice += 27;
+            mensaje += alfabeto[nuevoIndice];
+        } else {
+            mensaje += c; // Mantener caracteres no válidos
         }
     }
     return mensaje;
@@ -84,13 +96,14 @@ int main() {
             cout << "Opción no válida" << endl;
     }
     
-    // Ejemplo específico de tu imagen
-    cout << "\nEjemplo de tu imagen (BUENOS DAS):\n";
+    // Ejemplo específico
+    cout << "\nEjemplo (BUENOS DAS):\n";
     string ejemplo = "BUENOS DAS";
     string cifradoEjemplo = cifrar(ejemplo);
     cout << "Texto original: " << ejemplo << endl;
     cout << "Cifrado: " << cifradoEjemplo << endl;
     cout << "Formato numérico: " << textoANumeros(cifradoEjemplo) << endl;
+    cout << "Descifrado: " << descifrar(cifradoEjemplo) << endl;
     
     return 0;
 }
