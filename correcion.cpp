@@ -41,7 +41,7 @@ string descifrarCesar(string texto) {
 }
 
 int main() {
-    cout << "CIFRADO CÉSAR" << endl;
+    cout << "CIFRADO CESAR" << endl;
     cout << "1. Cifrar texto\n2. Descifrar texto\nSeleccione: ";
     
     int opcion;
@@ -54,7 +54,7 @@ int main() {
     // Limpiar el buffer completamente
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
-    cout << "Ingrese el texto (ej. 'buenos días'): ";
+    cout << "Ingrese el texto (ej. 'buenos dias'): ";
     string texto;
     getline(cin, texto);
     
@@ -63,6 +63,9 @@ int main() {
     } else {
         cout << "Texto descifrado: " << descifrarCesar(texto) << endl;
     }
+    
+    return 0;
+}
     
     return 0;
 }
