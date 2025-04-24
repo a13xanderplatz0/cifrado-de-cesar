@@ -43,18 +43,16 @@ string cifrar(const string& mensaje) {
     return cifrado;
 }
 
-// Función para descifrar (corregida con inversa modular)
+// Función para descifrar (corregida)
 string descifrar(const string& cifrado) {
     string mensaje;
     for (char c : cifrado) {
         if (c == ' ') {
-            int nuevoIndice = (0 * a_inversa) % 27; // Descifrado del espacio
-            if (nuevoIndice < 0) nuevoIndice += 27;
-            mensaje += alfabeto[nuevoIndice];
+            mensaje += ' '; // Preservar espacios en el texto cifrado
         } else if (isalpha(c)) {
-            int indice = toupper(c) - 'A' + 1;
-            int nuevoIndice = (indice * a_inversa) % 27;
-            if (nuevoIndice < 0) nuevoIndice += 27;
+            int indice = toupper(c) - 'A' + 1; // Índice del carácter (1 a 26)
+            int nuevoIndice = ((indice - a) * a_inversa) % 27;
+            if (nuevoIndice <= 0) nuevoIndice += 27; // Asegurar rango [0, 26]
             mensaje += alfabeto[nuevoIndice];
         } else {
             mensaje += c; // Mantener caracteres no válidos
@@ -73,7 +71,7 @@ int main() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     
     string texto;
-    cout << "Ingrese el texto (ej. BUENOS DAS): ";
+    cout << "Ingrese el texto (BUENOS DIAS): ";
     getline(cin, texto);
     
     switch(opcion) {
@@ -97,8 +95,8 @@ int main() {
     }
     
     // Ejemplo específico
-    cout << "\nEjemplo (BUENOS DAS):\n";
-    string ejemplo = "BUENOS DAS";
+    cout << "\nEjemplo (BUENOS DIAS):\n";
+    string ejemplo = "BUENOS DIAS";
     string cifradoEjemplo = cifrar(ejemplo);
     cout << "Texto original: " << ejemplo << endl;
     cout << "Cifrado: " << cifradoEjemplo << endl;
