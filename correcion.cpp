@@ -5,7 +5,7 @@
 using namespace std;
 
 string cifrarCesar(string texto) {
-    const int desplazamiento = 3;
+    const int desplazamiento = 3;//el valor de a=3
     string resultado = "";
     
     for (char c : texto) {
